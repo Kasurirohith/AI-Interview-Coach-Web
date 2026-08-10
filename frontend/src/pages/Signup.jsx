@@ -1,6 +1,12 @@
 import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+
+const API_URL =
+  "https://ai-interview-coach-v2-1.onrender.com";
 
 function Signup() {
+  const navigate = useNavigate();
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -12,12 +18,18 @@ function Signup() {
       return;
     }
 
+    if (password.length < 6) {
+      alert(
+        "Password must contain at least 6 characters"
+      );
+      return;
+    }
+
     try {
       setLoading(true);
 
-      // FIX: Replaced localhost endpoint with production Render backend URL
       const response = await fetch(
-        "https://ai-interview-coach-v2-1.onrender.com/signup",
+        `${API_URL}/signup`,
         {
           method: "POST",
           headers: {
@@ -34,59 +46,141 @@ function Signup() {
       const result = await response.json();
 
       if (result.success) {
-        localStorage.setItem("username", name);
-        localStorage.setItem("email", email);
+        localStorage.setItem(
+          "username",
+          name
+        );
 
-        alert("Account Created Successfully");
+        localStorage.setItem(
+          "email",
+          email
+        );
 
-        window.location.href = "/dashboard";
+        alert(
+          "Account Created Successfully"
+        );
+
+        navigate("/");
       } else {
-        alert(result.message);
+        alert(
+          result.message ||
+            "Unable to create account"
+        );
       }
     } catch (error) {
-      console.log(error);
-      alert("Backend Not Running");
+      console.error(error);
+
+      alert(
+        "Backend connection failed. Please try again."
+      );
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="page-container">
-      <div className="card">
-        <h1>Create Account</h1>
+    <div
+      style={{
+        minHeight: "75vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        padding: "40px 20px",
+      }}
+    >
+      <div
+        style={{
+          width: "100%",
+          maxWidth: "450px",
+          background: "#111827",
+          border: "1px solid #374151",
+          borderRadius: "18px",
+          padding: "35px",
+          boxSizing: "border-box",
+        }}
+      >
+        <div
+          style={{
+            textAlign: "center",
+            marginBottom: "30px",
+          }}
+        >
+          <div style={{ fontSize: "45px" }}>
+            🚀
+          </div>
+
+          <h1 style={{ margin: "10px 0" }}>
+            Create Account
+          </h1>
+
+          <p style={{ color: "#9ca3af" }}>
+            Start your personalized AI interview
+            preparation.
+          </p>
+        </div>
 
         <input
           className="input-box"
           type="text"
           placeholder="Full Name"
           value={name}
-          onChange={(e) => setName(e.target.value)}
+          onChange={(e) =>
+            setName(e.target.value)
+          }
         />
 
         <input
           className="input-box"
           type="email"
-          placeholder="Email"
+          placeholder="Enter Email"
           value={email}
-          onChange={(e) => setEmail(e.target.value)}
+          onChange={(e) =>
+            setEmail(e.target.value)
+          }
         />
 
         <input
           className="input-box"
           type="password"
-          placeholder="Password"
+          placeholder="Create Password"
           value={password}
-          onChange={(e) => setPassword(e.target.value)}
+          onChange={(e) =>
+            setPassword(e.target.value)
+          }
         />
 
         <button
           className="primary-btn"
           onClick={handleSignup}
           disabled={loading}
+          style={{
+            width: "100%",
+            marginTop: "10px",
+          }}
         >
-          {loading ? "Creating..." : "Sign Up"}
+          {loading
+            ? "Creating..."
+            : "Create Account"}
         </button>
+
+        <p
+          style={{
+            textAlign: "center",
+            marginTop: "25px",
+            color: "#9ca3af",
+          }}
+        >
+          Already have an account?{" "}
+          <Link
+            to="/login"
+            style={{
+              color: "#60a5fa",
+              fontWeight: "600",
+            }}
+          >
+            Login
+          </Link>
+        </p>
       </div>
     </div>
   );
