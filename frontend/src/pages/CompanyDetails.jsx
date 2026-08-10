@@ -2,7 +2,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 const API_URL =
-  "https://ai-interview-coach-v2-1.onrender.com";
+  import.meta.env.VITE_API_URL || "https://ai-interview-coach-web.onrender.com";
 
 function CompanyDetails() {
   const { name } = useParams();
