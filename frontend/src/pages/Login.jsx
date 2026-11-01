@@ -1,190 +1,98 @@
+
 import { useState } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import "./Auth.css";
 
 const API_URL =
-  "https://ai-interview-coach-v2-1.onrender.com";
+  import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-function Login() {
+export default function Login() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [isSpinningUp, setIsSpinningUp] = useState(false);
 
-  const handleLogin = async () => {
-    if (!email || !password) {
-      alert("Please fill all fields");
-      return;
-    }
-
-    const spinUpTimer = setTimeout(() => {
-      setIsSpinningUp(true);
-    }, 4000);
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
 
     try {
-      setLoading(true);
+      const response = await fetch(`${API_URL}/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-      const response = await fetch(
-        `${API_URL}/login`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email,
-            password,
-          }),
-        }
-      );
+      const data = await response.json();
 
-      const result = await response.json();
-
-      if (result.success) {
-        localStorage.setItem(
-          "username",
-          result.name
-        );
-
-        localStorage.setItem(
-          "email",
-          result.email
-        );
-
-        alert("Login Successful");
-
-        navigate("/");
-      } else {
-        alert(
-          result.message ||
-            "Invalid email or password"
+      if (!response.ok) {
+        throw new Error(
+          data.detail || data.message || "Login failed. Please check your details."
         );
       }
-    } catch (error) {
-      console.error(error);
 
-      alert(
-        "Backend connection failed. Please wait for the server to wake up and try again."
+      localStorage.setItem("email", email);
+
+      if (data.username) {
+        localStorage.setItem("username", data.username);
+      }
+
+      navigate("/");
+    } catch (err) {
+      setError(
+        err.message || "Unable to connect to the server. Please try again."
       );
     } finally {
-      clearTimeout(spinUpTimer);
       setLoading(false);
-      setIsSpinningUp(false);
     }
   };
 
   return (
-    <div
-      style={{
-        minHeight: "75vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        padding: "40px 20px",
-      }}
-    >
-      <div
-        style={{
-          width: "100%",
-          maxWidth: "450px",
-          background: "#111827",
-          border: "1px solid #374151",
-          borderRadius: "18px",
-          padding: "35px",
-          boxSizing: "border-box",
-        }}
-      >
-        <div
-          style={{
-            textAlign: "center",
-            marginBottom: "30px",
-          }}
-        >
-          <div style={{ fontSize: "45px" }}>
-            🤖
-          </div>
-
-          <h1 style={{ margin: "10px 0" }}>
-            Welcome Back
-          </h1>
-
-          <p style={{ color: "#9ca3af" }}>
-            Login to continue your interview
-            preparation.
-          </p>
+    <main className="auth-page">
+      <section className="auth-card">
+        <div className="auth-heading">
+          <h1>Welcome Back</h1>
+          <p>Sign in to continue your interview preparation.</p>
         </div>
 
-        <input
-          className="input-box"
-          type="email"
-          placeholder="Enter Email"
-          value={email}
-          onChange={(e) =>
-            setEmail(e.target.value)
-          }
-        />
+        <form className="auth-form" onSubmit={handleLogin}>
+          <label htmlFor="login-email">Email address</label>
+          <input
+            id="login-email"
+            type="email"
+            placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            autoComplete="email"
+            required
+          />
 
-        <input
-          className="input-box"
-          type="password"
-          placeholder="Enter Password"
-          value={password}
-          onChange={(e) =>
-            setPassword(e.target.value)
-          }
-        />
+          <label htmlFor="login-password">Password</label>
+          <input
+            id="login-password"
+            type="password"
+            placeholder="Enter your password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            autoComplete="current-password"
+            required
+          />
 
-        <button
-          className="primary-btn"
-          onClick={handleLogin}
-          disabled={loading}
-          style={{
-            width: "100%",
-            marginTop: "10px",
-          }}
-        >
-          {loading
-            ? "Logging In..."
-            : "Login"}
-        </button>
+          {error && <p className="auth-error">{error}</p>}
 
-        {isSpinningUp && (
-          <p
-            style={{
-              color: "#60a5fa",
-              fontSize: "14px",
-              marginTop: "15px",
-              textAlign: "center",
-              lineHeight: "1.5",
-            }}
-          >
-            ⏳ Waking up server... This can take
-            a little longer on the first request.
-          </p>
-        )}
+          <button type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Login"}
+          </button>
+        </form>
 
-        <p
-          style={{
-            textAlign: "center",
-            marginTop: "25px",
-            color: "#9ca3af",
-          }}
-        >
-          Don't have an account?{" "}
-          <Link
-            to="/signup"
-            style={{
-              color: "#60a5fa",
-              fontWeight: "600",
-            }}
-          >
-            Create Account
-          </Link>
+        <p className="auth-switch">
+          Don't have an account? <Link to="/signup">Create Account</Link>
         </p>
-      </div>
-    </div>
+      </section>
+    </main>
   );
 }
-
-export default Login;

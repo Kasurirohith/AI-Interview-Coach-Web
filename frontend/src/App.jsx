@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import CodingPractice from "./components/CodingPractice";
@@ -12,84 +12,48 @@ import CompanyDetails from "./pages/CompanyDetails";
 import ProductCompanies from "./pages/ProductCompanies";
 import ServiceCompanies from "./pages/ServiceCompanies";
 import InterviewPractice from "./pages/InterviewPractice";
+import PracticeWorkspace from "./pages/PracticeWorkspace";
 
 function Footer() {
   return (
-    <footer
-      style={{
-        width: "100%",
-        padding: "25px 20px",
-        background: "#111827",
-        borderTop: "1px solid #1f2937",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        marginTop: "auto",
-        boxSizing: "border-box",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "16px",
-          fontWeight: "500",
-          color: "#9ca3af",
-          marginBottom: "6px",
-        }}
-      >
-        AI-Powered Interview Coach and Career Intelligence Platform
-      </div>
-
-      <div
-        style={{
-          fontSize: "14px",
-          color: "#60a5fa",
-          fontWeight: "600",
-        }}
-      >
-        Developed By Kasuri Rohith | B.Tech Computer Science & Engineering
-      </div>
+    <footer className="app-footer">
+      <p>AI-Powered Interview Coach and Career Intelligence Platform</p>
     </footer>
+  );
+}
+
+function NotFound() {
+  return (
+    <section className="not-found-page">
+      <h1>404 - Page Not Found</h1>
+      <p>The page you are looking for does not exist.</p>
+      <button type="button" onClick={() => window.location.assign("/")}>
+        Back to Home
+      </button>
+    </section>
   );
 }
 
 function App() {
   return (
     <BrowserRouter>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-        }}
-      >
+      <div className="app-layout">
         <Navbar />
 
-        <div style={{ flex: 1 }}>
+        <main className="app-main">
           <Routes>
             <Route path="/" element={<Home />} />
-
-            <Route
-              path="/login"
-              element={<Login />}
-            />
-
-            <Route
-              path="/signup"
-              element={<Signup />}
-            />
+            <Route path="/login" element={<Login />} />
+            <Route path="/signup" element={<Signup />} />
 
             <Route
               path="/product-companies"
               element={<ProductCompanies />}
             />
-
             <Route
               path="/service-companies"
               element={<ServiceCompanies />}
             />
-
             <Route
               path="/company/:name"
               element={<CompanyDetails />}
@@ -99,18 +63,18 @@ function App() {
               path="/interview/:name"
               element={<InterviewPractice />}
             />
+            <Route path="/coding" element={<CodingPractice />} />
+            <Route path="/report" element={<Report />} />
 
             <Route
-              path="/coding"
-              element={<CodingPractice />}
+              path="/practice/:company/:module"
+              element={<PracticeWorkspace />}
             />
 
-            <Route
-              path="/report"
-              element={<Report />}
-            />
+            <Route path="/companies" element={<Navigate to="/product-companies" replace />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
-        </div>
+        </main>
 
         <Footer />
       </div>

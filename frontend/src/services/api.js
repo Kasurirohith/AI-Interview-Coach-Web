@@ -13,7 +13,21 @@ export const uploadResume = async (file) => {
     }
   );
 
-  return response.json();
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(result.detail || "Resume upload failed.");
+  }
+
+  // Save resume-generated interview questions
+  if (Array.isArray(result.questions) && result.questions.length > 0) {
+    localStorage.setItem(
+      "resumeQuestions",
+      JSON.stringify(result.questions)
+    );
+  }
+
+  return result;
 };
 
 /* Signup */

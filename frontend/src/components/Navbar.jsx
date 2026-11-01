@@ -1,237 +1,215 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
 
 function Navbar() {
   const navigate = useNavigate();
 
   const username = localStorage.getItem("username");
+  const email = localStorage.getItem("email");
+  const isLoggedIn = Boolean(username || email);
 
-  const [darkMode, setDarkMode] = useState(
-    localStorage.getItem("theme") !== "light"
-  );
+  const displayName = username || email?.split("@")[0] || "User";
 
-  useEffect(() => {
-    if (darkMode) {
-      document.body.classList.add("dark");
-      document.body.classList.remove("light");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.body.classList.add("light");
-      document.body.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  }, [darkMode]);
-
-  const logout = () => {
-    const confirmLogout = window.confirm(
-      "Are you sure you want to logout?"
-    );
-
-    if (!confirmLogout) return;
-
+  const handleLogout = () => {
     localStorage.removeItem("username");
     localStorage.removeItem("email");
-
-    navigate("/");
+    navigate("/login");
   };
 
   return (
-    <nav
-      style={{
-        width: "100%",
-        minHeight: "75px",
-        padding: "12px 30px",
-        boxSizing: "border-box",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: "20px",
-        background: "#111827",
-        borderBottom: "1px solid #1f2937",
-        position: "sticky",
-        top: 0,
-        zIndex: 1000,
-      }}
-    >
-      {/* Logo */}
-      <Link
-        to="/"
-        style={{
-          textDecoration: "none",
-          color: "inherit",
-        }}
-      >
-        <h1
-          className="logo"
-          style={{
-            cursor: "pointer",
-            margin: 0,
-            whiteSpace: "nowrap",
-            fontSize: "22px",
-          }}
-        >
-          🤖 AI Interview Coach
-        </h1>
-      </Link>
+    <>
+      {/* Embedded Navbar CSS */}
+      <style>{`
+        .site-navbar {
+          width: 100%;
+          min-height: 68px;
+          padding: 12px 28px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          background: #ffffff;
+          border-bottom: 1px solid #e5e5e5;
+          position: relative;
+          z-index: 10;
+        }
 
-      {/* Navigation */}
-      <ul
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          gap: "22px",
-          listStyle: "none",
-          margin: 0,
-          padding: 0,
-          flexWrap: "wrap",
-        }}
-      >
-        <li>
-          <Link
-            to="/"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              fontWeight: "600",
-            }}
-          >
-            Home
-          </Link>
-        </li>
+        .navbar-brand {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          color: #171717;
+          text-decoration: none;
+          font-size: 19px;
+          font-weight: 700;
+          white-space: nowrap;
+        }
 
-        <li>
-          <Link
-            to="/product-companies"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              fontWeight: "600",
-            }}
-          >
-            Product Companies
-          </Link>
-        </li>
+        .brand-mark {
+          width: 32px;
+          height: 32px;
+          display: grid;
+          place-items: center;
+          background: #171717;
+          color: #ffffff;
+          border-radius: 9px;
+          font-size: 12px;
+          letter-spacing: 0.5px;
+        }
 
-        <li>
-          <Link
-            to="/service-companies"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              fontWeight: "600",
-            }}
-          >
-            Service Companies
-          </Link>
-        </li>
+        .navbar-links {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 24px;
+        }
 
-        <li>
-          <Link
-            to="/coding"
-            style={{
-              textDecoration: "none",
-              color: "inherit",
-              fontWeight: "600",
-            }}
-          >
-            Coding Practice
-          </Link>
-        </li>
-      </ul>
+        .navbar-links a,
+        .navbar-login {
+          color: #333333;
+          text-decoration: none;
+          font-size: 14px;
+          font-weight: 500;
+        }
 
-      {/* Right Side */}
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          gap: "12px",
-        }}
-      >
-        {/* Theme Toggle */}
-        <button
-          className="theme-btn"
-          onClick={() => setDarkMode(!darkMode)}
-          title={
-            darkMode
-              ? "Switch to light mode"
-              : "Switch to dark mode"
+        .navbar-links a:hover,
+        .navbar-login:hover {
+          color: #777777;
+        }
+
+        .navbar-account {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          white-space: nowrap;
+        }
+
+        .navbar-user {
+          color: #333333;
+          font-size: 14px;
+        }
+
+        .navbar-login {
+          padding: 9px 14px;
+          border: 1px solid #d4d4d4;
+          border-radius: 8px;
+        }
+
+        .navbar-signup,
+        .navbar-button {
+          padding: 9px 15px;
+          border: 1px solid #171717;
+          border-radius: 8px;
+          background: #171717;
+          color: #ffffff;
+          text-decoration: none;
+          font-family: inherit;
+          font-size: 14px;
+          font-weight: 500;
+          cursor: pointer;
+        }
+
+        .navbar-signup:hover,
+        .navbar-button:hover {
+          background: #333333;
+        }
+
+        @media (max-width: 900px) {
+          .site-navbar {
+            flex-wrap: wrap;
+            justify-content: center;
+            padding: 14px;
           }
-          style={{
-            width: "42px",
-            height: "42px",
-            borderRadius: "50%",
-            border: "none",
-            cursor: "pointer",
-            fontSize: "18px",
-            background: darkMode ? "#1f2937" : "#ffffff",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
-          }}
-        >
-          {darkMode ? "☀️" : "🌙"}
-        </button>
 
-        {/* Logged In User */}
-        {username ? (
-          <>
-            <div
-              style={{
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                background:
-                  "linear-gradient(135deg,#60a5fa,#a855f7)",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                fontWeight: "700",
-                fontSize: "17px",
-              }}
-            >
-              {username.charAt(0).toUpperCase()}
-            </div>
+          .navbar-brand {
+            width: 100%;
+            justify-content: center;
+          }
 
-            <span
-              style={{
-                color: "#60a5fa",
-                fontWeight: "600",
-                fontSize: "16px",
-              }}
-            >
-              {username}
-            </span>
+          .navbar-links {
+            flex-wrap: wrap;
+            gap: 14px;
+          }
+        }
 
-            <button
-              className="login-btn"
-              onClick={logout}
-            >
-              Logout
-            </button>
-          </>
-        ) : (
-          <>
-            <Link
-              to="/login"
-              style={{ textDecoration: "none" }}
-            >
-              <button className="login-btn">
+        @media (max-width: 500px) {
+          .navbar-links {
+            gap: 10px;
+          }
+
+          .navbar-links a {
+            font-size: 12px;
+          }
+        }
+
+        /* Added Custom Overrides */
+        .site-navbar .navbar-brand,
+        .site-navbar .navbar-account {
+          display: flex !important;
+          visibility: visible !important;
+          opacity: 1 !important;
+        }
+
+        .site-navbar .navbar-brand {
+          margin-right: auto;
+          color: #171717 !important;
+        }
+
+        .site-navbar .navbar-account {
+          margin-left: auto;
+        }
+
+        .site-navbar .brand-mark {
+          display: grid !important;
+          background: #171717 !important;
+          color: #ffffff !important;
+        }
+
+        .site-navbar .navbar-signup,
+        .site-navbar .navbar-button {
+          background: #171717 !important;
+          color: #ffffff !important;
+        }
+      `}</style>
+
+      {/* Navbar Markup */}
+      <header className="site-navbar">
+        <Link to="/" className="navbar-brand">
+          <span className="brand-mark">AI</span>
+          <span>AI Interview Coach</span>
+        </Link>
+
+        <nav className="navbar-links">
+          <Link to="/">Home</Link>
+          <Link to="/product-companies">Product Companies</Link>
+          <Link to="/service-companies">Service Companies</Link>
+          <Link to="/coding">Coding Practice</Link>
+        </nav>
+
+        <div className="navbar-account">
+          {isLoggedIn ? (
+            <>
+              <span className="navbar-user">{displayName}</span>
+              <button
+                type="button"
+                className="navbar-button"
+                onClick={handleLogout}
+              >
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <Link className="navbar-login" to="/login">
                 Login
-              </button>
-            </Link>
-
-            <Link
-              to="/signup"
-              style={{ textDecoration: "none" }}
-            >
-              <button className="login-btn">
-                Signup
-              </button>
-            </Link>
-          </>
-        )}
-      </div>
-    </nav>
+              </Link>
+              <Link className="navbar-signup" to="/signup">
+                Sign Up
+              </Link>
+            </>
+          )}
+        </div>
+      </header>
+    </>
   );
 }
 

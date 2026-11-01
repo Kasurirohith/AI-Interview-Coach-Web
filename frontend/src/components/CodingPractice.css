@@ -1,25 +1,25 @@
+/* CODING PRACTICE — PROFESSIONAL BLACK & WHITE THEME */
+
 .coding-page {
   width: 100%;
   min-height: 80vh;
   padding: 40px 20px;
   box-sizing: border-box;
+  background: #ffffff !important;
+  color: #171717 !important;
 }
 
 .coding-container {
   width: 90%;
   max-width: 1100px;
   margin: 0 auto;
-
-  background: #111827;
-  border: 1px solid #374151;
+  background: #ffffff !important;
+  color: #171717 !important;
+  border: 1px solid #e5e5e5;
   border-radius: 18px;
-
   padding: 40px;
   box-sizing: border-box;
-
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease;
 }
 
 .coding-header {
@@ -28,120 +28,101 @@
 }
 
 .coding-icon {
-  font-size: 48px;
+  font-size: 40px;
   margin-bottom: 8px;
+  filter: grayscale(1);
+}
+
+.coding-title,
+.coding-company {
+  color: #171717 !important;
+  margin: 8px 0;
+  font-weight: 700;
 }
 
 .coding-title {
   font-size: clamp(32px, 5vw, 48px);
-  color: #ffffff;
-  margin: 0 0 10px;
-}
-
-.coding-company {
-  color: #60a5fa;
-  margin: 8px 0;
 }
 
 .coding-track {
-  color: #60a5fa;
-  font-weight: 700;
+  color: #333333 !important;
+  font-weight: 600;
   margin: 8px 0;
 }
 
 .coding-subtitle {
-  color: #9ca3af;
-  margin: 10px 0 0;
+  color: #666666 !important;
+  margin-top: 10px;
   line-height: 1.6;
 }
 
 .current-preparation {
-  background: #1f2937;
-  border: 1px solid #374151;
+  background: #f7f7f7 !important;
+  border: 1px solid #e5e5e5;
   border-radius: 12px;
-
   padding: 17px;
   margin-bottom: 25px;
-
   text-align: center;
-
   display: flex;
   flex-direction: column;
   gap: 6px;
-
-  color: #9ca3af;
-
-  transition:
-    background 0.3s ease,
-    border-color 0.3s ease;
+  color: #666666 !important;
 }
 
 .current-preparation strong {
-  color: #ffffff;
+  color: #171717 !important;
 }
 
 .coding-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(250px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
   gap: 22px;
 }
 
 .coding-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
+  background: #ffffff !important;
+  color: #171717 !important;
+  border: 1px solid #e5e5e5 !important;
   border-radius: 16px;
-
   padding: 28px;
-
-  transition:
-    transform 0.25s ease,
-    border-color 0.25s ease,
-    box-shadow 0.25s ease,
-    background 0.3s ease;
+  box-shadow: none !important;
+  transition: transform 0.25s ease, border-color 0.25s ease;
 }
 
 .coding-card:hover {
-  transform: translateY(-6px);
-  border-color: #60a5fa;
-  box-shadow:
-    0 10px 30px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  border-color: #777777 !important;
+  box-shadow: none !important;
 }
 
 .coding-card h2 {
-  color: #111827;
+  color: #171717 !important;
   margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 600;
 }
 
 .coding-card p {
-  color: #475569;
+  color: #666666 !important;
   margin: 0 0 25px;
 }
 
 .coding-card button {
   width: 100%;
   padding: 13px;
-
-  background: #2563eb;
-  color: #ffffff;
-
-  border: none;
+  background: #171717 !important;
+  color: #ffffff !important;
+  border: 1px solid #171717 !important;
   border-radius: 10px;
-
   cursor: pointer;
-
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-
-  transition:
-    background 0.2s ease,
-    transform 0.2s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
 
 .coding-card button:hover {
-  background: #1d4ed8;
+  background: #444444 !important;
+  border-color: #444444 !important;
   transform: translateY(-1px);
 }
 
@@ -150,103 +131,38 @@
   justify-content: center;
   gap: 12px;
   flex-wrap: wrap;
-
   margin-top: 30px;
 }
 
 .coding-back-btn,
 .coding-company-btn {
   padding: 12px 22px;
-
   border-radius: 10px;
-
   cursor: pointer;
-
-  font-weight: 700;
+  font-weight: 600;
   font-size: 14px;
-
-  transition: 0.2s;
+  transition: background 0.2s ease;
 }
 
 .coding-back-btn {
-  background: #1f2937;
-  color: #ffffff;
-  border: 1px solid #374151;
+  background: #ffffff !important;
+  color: #171717 !important;
+  border: 1px solid #d5d5d5 !important;
 }
 
 .coding-back-btn:hover {
-  border-color: #60a5fa;
+  background: #f2f2f2 !important;
 }
 
 .coding-company-btn {
-  background: #2563eb;
-  color: #ffffff;
-  border: none;
+  background: #171717 !important;
+  color: #ffffff !important;
+  border: 1px solid #171717 !important;
 }
 
 .coding-company-btn:hover {
-  background: #1d4ed8;
-}
-
-/* LIGHT MODE */
-
-body.light .coding-container {
-  background: #ffffff;
-  border-color: #dbe3ec;
-}
-
-body.light .coding-title {
-  color: #111827;
-}
-
-body.light .coding-subtitle {
-  color: #64748b;
-}
-
-body.light .coding-company {
-  color: #2563eb;
-}
-
-body.light .coding-track {
-  color: #2563eb;
-}
-
-body.light .current-preparation {
-  background: #f1f5f9;
-  border-color: #dbe3ec;
-  color: #64748b;
-}
-
-body.light .current-preparation strong {
-  color: #111827;
-}
-
-body.light .coding-card {
-  background: #f8fafc;
-  border-color: #e2e8f0;
-}
-
-body.light .coding-card h2 {
-  color: #111827;
-}
-
-body.light .coding-card p {
-  color: #475569;
-}
-
-body.light .coding-back-btn {
-  background: #f1f5f9;
-  color: #1e293b;
-  border-color: #cbd5e1;
-}
-
-body.light .coding-back-btn:hover {
-  background: #e2e8f0;
-}
-
-body.light .coding-company-btn {
-  background: #2563eb;
-  color: #ffffff;
+  background: #444444 !important;
+  border-color: #444444 !important;
 }
 
 @media (max-width: 700px) {
@@ -255,7 +171,7 @@ body.light .coding-company-btn {
   }
 
   .coding-container {
-    width: 96%;
+    width: 100%;
     padding: 25px 18px;
   }
 

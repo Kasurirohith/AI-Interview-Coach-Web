@@ -1,106 +1,102 @@
-import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-// Components
-import Navbar from "./components/Navbar";
-import CodingPractice from "./components/CodingPractice";
+import { useNavigate } from "react-router-dom";
+import "./Companies.css";
 
-// Pages
-import Home from "./pages/Home";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import ProductCompanies from "./pages/ProductCompanies";
-import ServiceCompanies from "./pages/ServiceCompanies";
-import CompanyDetails from "./pages/CompanyDetails";
-import Report from "./pages/Report";
+function Companies() {
+  const navigate = useNavigate();
 
-// Footer Component
-function Footer() {
+  const companies = [
+    {
+      name: "Google",
+      category: "Product Based",
+      description: "Software engineering, algorithms, data structures, and system design.",
+    },
+    {
+      name: "Microsoft",
+      category: "Product Based",
+      description: "Programming, DSA, object-oriented design, and technical interviews.",
+    },
+    {
+      name: "Amazon",
+      category: "Product Based",
+      description: "Coding, problem-solving, system design, and behavioral interviews.",
+    },
+    {
+      name: "Infosys",
+      category: "Service Based",
+      description: "Programming, SQL, data structures, and technical assessments.",
+    },
+    {
+      name: "TCS",
+      category: "Service Based",
+      description: "Ninja, Digital, and Prime recruitment preparation.",
+    },
+    {
+      name: "Accenture",
+      category: "Service Based",
+      description: "Pseudocode, programming, SQL, aptitude, and problem-solving.",
+    },
+    {
+      name: "Capgemini",
+      category: "Service Based",
+      description: "Coding assessments, SQL, OOP, and technical interviews.",
+    },
+    {
+      name: "Deloitte",
+      category: "Service Based",
+      description: "Analyst and software engineering interview preparation.",
+    },
+  ];
+
+  const openCompany = (company) => {
+    localStorage.setItem("selectedCompany", company.name);
+    localStorage.setItem("targetCompany", company.name);
+    localStorage.setItem("companyCategory", company.category);
+
+    navigate(`/company/${encodeURIComponent(company.name)}`);
+  };
+
   return (
-    <footer
-      style={{
-        width: "100%",
-        padding: "25px 20px",
-        background: "#111827",
-        borderTop: "1px solid #1f2937",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        textAlign: "center",
-        marginTop: "auto",
-        boxSizing: "border-box",
-      }}
-    >
-      <div
-        style={{
-          fontSize: "16px",
-          fontWeight: "500",
-          color: "#9ca3af",
-          marginBottom: "6px",
-          letterSpacing: "0.5px",
-        }}
-      >
-        AI-Powered Interview Coach and Career Intelligence Platform
-      </div>
+    <main className="companies-overview">
+      <header className="companies-overview-header">
+        <span className="companies-overview-eyebrow">
+          CAREER PREPARATION
+        </span>
 
-      <div
-        style={{
-          fontSize: "14px",
-          color: "#60a5fa",
-          fontWeight: "600",
-        }}
-      >
-        Developed By Kasuri Rohith | B.Tech Computer Science & Engineering
-      </div>
-    </footer>
+        <h1>Explore Companies</h1>
+
+        <p>
+          Prepare for technical assessments, coding rounds, and interviews
+          with structured company-specific practice.
+        </p>
+      </header>
+
+      <section className="companies-overview-grid">
+        {companies.map((company) => (
+          <article className="company-card" key={company.name}>
+            <div className="company-overview-content">
+              <span className="company-overview-category">
+                {company.category}
+              </span>
+
+              <h2>{company.name}</h2>
+
+              <p>{company.description}</p>
+            </div>
+
+            <button
+              type="button"
+              className="company-overview-button"
+              onClick={() => openCompany(company)}
+            >
+              View Preparation
+              <span aria-hidden="true">→</span>
+            </button>
+          </article>
+        ))}
+      </section>
+    </main>
   );
 }
 
-function App() {
-  return (
-    <BrowserRouter>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          minHeight: "100vh",
-        }}
-      >
-        <Navbar />
-
-        <div style={{ flex: 1 }}>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route
-              path="/product-companies"
-              element={<ProductCompanies />}
-            />
-            <Route
-              path="/service-companies"
-              element={<ServiceCompanies />}
-            />
-            <Route
-              path="/company/:name"
-              element={<CompanyDetails />}
-            />
-            <Route
-              path="/coding"
-              element={<CodingPractice />}
-            />
-            <Route
-              path="/report"
-              element={<Report />}
-            />
-          </Routes>
-        </div>
-
-        <Footer />
-      </div>
-    </BrowserRouter>
-  );
-}
-
-export default App;
+export default Companies;
